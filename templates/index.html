@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melanoma Detection</title>
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>Melanoma Detection</h1>
+        <p class="subtitle">Upload an image of a skin lesion to determine if it is benign or malignant.</p>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <div class="sidebar-left">
+            <h3>Preventative Actions</h3>
+            <p><strong>Protect your skin and reduce the risk of melanoma with these tips:</strong></p>
+            <ul>
+                <li>Avoid prolonged sun exposure, especially during peak hours (10 AM to 4 PM).</li>
+                <li>Use sunscreen with SPF 30 or higher and reapply every two hours.</li>
+                <li>Wear protective clothing, such as wide-brimmed hats and long sleeves.</li>
+                <li>Avoid tanning beds, as they increase the risk of skin cancer.</li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <form id="uploadForm" enctype="multipart/form-data" method="POST">
+                <input type="file" name="file" id="file" accept="image/*">
+                <button type="submit">Upload Image</button>
+            </form>
+            <div id="imageContainer" style="display:none;">
+                <h2>Uploaded Image:</h2>
+                <img id="uploadedImage" src="" alt="Uploaded Image">
+            </div>
+            <div class="result">
+                <h2 id="predictionResult"></h2>
+                <h3 id="confidence"></h3>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="sidebar-right">
+            <h3>Suggested Actions</h3>
+            <div id="suggestedActions">
+                <p>Please upload an image for prediction to see suggestions.</p>
+            </div>
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This model is not 100% accurate. Regardless of the result, consult your doctor for a professional diagnosis and treatment.
+            </p>
+        </div>
+    </div>
+
+    <div class="resources">
+        <h3>Resources</h3>
+        <ul>
+            <li><a href="https://www.cancer.org/healthy/be-safe-in-sun.html" target="_blank">Preventative Actions</a></li>
+            <li><a href="https://www.skincancer.org/prevention/" target="_blank">Skin Cancer Prevention Tips</a></li>
+            <li><a href="https://www.melanoma.org/" target="_blank">Melanoma Research Foundation</a></li>
+        </ul>
+    </div>
+    <script>
+        const form = document.getElementById('uploadForm');
+        const imageContainer = document.getElementById('imageContainer');
+        const uploadedImage = document.getElementById('uploadedImage');
+        const predictionResult = document.getElementById('predictionResult');
+        const confidence = document.getElementById('confidence');
+        const suggestedActions = document.getElementById('suggestedActions');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadedImage.src = e.target.result;
+                    imageContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.result) {
+                        predictionResult.innerHTML = `Prediction: <strong>${data.result}</strong>`;
+                        confidence.innerHTML = `Confidence: <strong>${data.confidence}%</strong>`;
+
+                        if (data.result === 'Malignant') {
+                            suggestedActions.innerHTML = `
+                                <p><strong>Actions:</strong></p>
+                                <ul>
+                                    <li>Consult a dermatologist immediately.</li>
+                                    <li>Avoid sun exposure and use sunscreen daily.</li>
+                                    <li>Prepare for diagnostic tests such as a biopsy.</li>
+                                    <li>Explore treatment options, including surgery, radiation, and immunotherapy.</li>
+                                    <li>Join a support group for melanoma patients and caregivers.</li>
+                                </ul>
+                            `;
+                        } else {
+                            suggestedActions.innerHTML = `
+                                <p><strong>Actions:</strong></p>
+                                <ul>
+                                    <li>Monitor the lesion for changes in size, color, or shape.</li>
+                                    <li>Schedule regular skin checks with a dermatologist.</li>
+                                    <li>Use sunscreen to protect your skin.</li>
+                                </ul>
+                            `;
+                        }
+                    } else {
+                        predictionResult.innerHTML = `<span class="error">Error: ${data.error}</span>`;
+                    }
+                })
+                .catch((error) => {
+                    predictionResult.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                });
+        });
+    </script>
+</body>
+</html>
