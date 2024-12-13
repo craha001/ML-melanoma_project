@@ -30,7 +30,7 @@ Subjectivity: Diagnostic results can vary between doctors due to differences in 
 Resource Scarcity: In many remote or under-resourced areas, the number of professional dermatologists is insufficient, resulting in delayed diagnoses.   
 Meanwhile, machine learning has the potential to efficiently and accurately process large-scale data. Could it be used to improve the speed and efficiency of screening, thereby helping people with early prevention, diagnosis, and reducing unnecessary medical costs and burdens?
 
-This project aims to answer the question: **Can we use machine learning to build a model that determines if a skin melanoma is benigh or cancerous by uploading images of the skin?** This would help people detect skin cancer early and address the shortcomings of traditional medical resources.
+This project aims to answer the question: **Can we use machine learning to build a model that determines if a skin melanoma is benign or cancerous?** This would help people detect skin cancer early and address the shortcomings of traditional medical resources.
 
 ## Tools
 kaggle，Google Colab
