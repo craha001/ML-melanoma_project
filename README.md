@@ -33,7 +33,7 @@ Meanwhile, machine learning has the potential to efficiently and accurately proc
 This project aims to answer the question: **Can we use machine learning to build a model that determines if a skin melanoma is benigh or cancerous by uploading images of the skin?** This would help people detect skin cancer early and address the shortcomings of traditional medical resources.
 
 ## Tools
-kaggle，google colab
+kaggle，Google Colab
 
 ## Model Quick Start Guide
 ### Step 1: Access the Dataset
