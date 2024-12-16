@@ -138,3 +138,4 @@ Our original data from:
 [Melanoma Detection Data](https://www.kaggle.com/datasets/hasnainjaved/melanoma-skin-cancer-dataset-of-10000-images)
 
 ## Declaration
+During this machine learning task, we used various techniques, algorithms, and tools. Some of them were covered in class, while others were learned through web searches and research. Whenever we encountered an error or faced confusion, we consulted ChatGPT for suggestions or assistance with debugging. We made sure to first understand the issue and its underlying concepts before implementing the solution. Given that we are beginners in machine learning, we had to invest a significant amount of time researching and reading to solve problems. As a result, our work may have similarities with others, but it reflects our learning process and gradual understanding of the subject.
